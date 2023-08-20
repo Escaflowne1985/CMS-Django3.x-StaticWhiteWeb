@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block home_data %}
+    <section class="single">
+        <div class="container">
+            <div class="row">
+                {% include 'articles/use_left.html' %}
+                <div class="col-md-8">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a>
+                                {{ ArticleInfo.category }}
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'Article:GetArticleItemInfo' ArticleInfo.category ArticleInfo.item 1 %}">
+                                {{ ArticleInfo.item }}
+                            </a>
+                        </li>
+                    </ol>
+                    <article class="article main-article">
+                        <header>
+                            <h3>{{ ArticleInfo.title }}</h3>
+                            <footer>
+                                文章的标签：
+                                <div class="col">
+                                    <ul class="tags">
+                                        {% for tag in tag_list %}
+                                            <li><a>{{ tag.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% if  ArticleInfo.integral_num == 0 %}
+                                        <ul class="tags">
+                                            <li></li>
+                                            <li><a>资源积分：该资源不用消耗积分</a></li>
+                                        </ul>
+                                    {% else %}
+                                        {#验证是否购买过#}
+                                        {% if exchange_data != "not free" %}
+                                            <ul class="tags">
+                                                <li></li>
+                                                <li><a>已购买</a></li>
+                                            </ul>
+                                        {% else %}
+                                            兑换资源需消耗{{ ArticleInfo.integral_num }}积分：
+                                            <ul class="tags">
+                                                <li></li>
+                                                <li>
+                                                    <a href="{% url 'UserBuyArticle' ArticleInfo.info_slug %}"
+                                                       onclick="return confirm('是否购使用积分兑换该文章的内容?');" class="love"
+                                                       target="_blank">
+                                                        <i class="icon ion-android-love"></i>积分兑换</a>
+                                                </li>
+                                            </ul>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </footer>
+                            <div class="line top">
+                                <div>内容正文/下载资源在最下方</div>
+                            </div>
+                            <ul class="details">
+                                <li style="list-style-type:none">{{ ArticleInfo.created_date | slice:"10"}}</li>
+                                {% if ArticleInfo.author %}
+                                    <li>文章作者：
+                                        <a href="">
+                                            {{ ArticleInfo.author }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if ArticleInfo.source_url %}
+                                    <li>文章来源：
+                                        <a href="">
+                                            {{ ArticleInfo.source }}
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li>文章来源：
+                                        <a href="">
+                                            互联网
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </header>
+                        <!-- 这里是放正文内容的容器-->
+                        <div class="main" id="article_detail">
+                            {{ detail_content |safe }}
+                        </div>
+                        <div class="comments">
+                            <div class="comment-list">
+                                <div class="item">
+                                    <div class="user">
+                                        <figure>
+                                            <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=301570796,2320516479&fm=26&gp=0.jpg">
+                                        </figure>
+                                        <div class="details">
+                                            <h3 class="name">
+                                                {{ link_content.storage_content|safe }}
+                                            </h3>
+                                            <div class="description">
+                                                免责声明:本站提供的一切软件、教程和内容信息仅限用于学习和研究目的；不得将上述内容用于商业或者非法用途，否则，一切后果请用户自负。本站信息来自网络收集整理，版权争议与本站无关。您必须在下载后的24个小时之内，从您的电脑或手机中彻底删除上述内容。如果您喜欢该程序和内容，请支持正版，购买注册，得到更好的正版服务。我们非常重视版权问题，如有侵权请邮件与我们联系处理。敬请谅解！
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer>
+                            <div class="col">
+                                <a><i class="icon ion-android-textsms"></i>
+                                    <div>
+                                        &nbsp&nbsp阅读数&nbsp&nbsp {{ ArticleInfo.read_num }}
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col">
+                                {% if UserInfo %}
+                                    {% if has_fav %}
+                                        <a href="{% url 'UserArticleFav' ArticleInfo.info_slug %}"
+                                           onclick="return confirm('是否取消收藏?');" class="love" target="_blank">
+                                            <i class="icon ion-android-love"></i>取消收藏</a>
+                                    {% else %}
+                                        <a href="{% url 'UserArticleFav' ArticleInfo.info_slug %}"
+                                           onclick="return confirm('是否需要收藏?');" class="love" target="_blank">
+                                            <i class="icon ion-android-love"></i>我要收藏</a>
+                                    {% endif %}
+                                    {#                                    <p>#}
+                                    {#                                        {% if has_fav %}#}
+                                    {#                                            <button id="add_fav_org_button" class="btn-round btn-light"#}
+                                    {#                                                    style="background: #FFA042">取消收藏#}
+                                    {#                                            </button>#}
+                                    {#                                        {% else %}#}
+                                    {#                                            <button id="add_fav_org_button" class="btn-round btn-light"#}
+                                    {#                                                    style="background: #02DF82">添加收藏#}
+                                    {#                                            </button>#}
+                                    {#                                        {% endif %}#}
+                                    {#                                    </p>#}
+                                {% endif %}
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

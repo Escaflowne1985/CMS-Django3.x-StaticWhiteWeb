@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block user_data %}
+<section class="login first grey">
+    <div class="container">
+        <div class="box-wrapper">
+            <div class="box box-border">
+                <div class="box-body">
+                    <h4>注册账号</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" name="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>联系邮箱(用户接受账号激活邮件)</label>
+                            <input type="email" name="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>联系方式</label>
+                            <input type="tel" name="mobile" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="fw">登陆密码</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+                        <div class="form-group {% if register_form.captcha.errors %} errorput{% endif %}">
+                            <label class="fw">验证码</label>
+                            {{ active_form.captcha }}&nbsp;&nbsp;{{ register_form.captcha }}
+                        </div>
+                        <div class="error btns" id="jsEmailTips">
+                            {% for key, error in register_form.errors.items %}
+                            {{ error }}
+                            {% endfor %}
+                            {{ msg }}
+                        </div>
+                        <div class="form-group text-right">
+                            <button class="btn btn-primary btn-block">注册</button>
+                        </div>
+                        <div class="form-group text-center">
+                            <span class="text-muted">已经拥有账号?</span> <a href="{% url 'UserLogin' %}">登陆</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,318 @@
+{% load staticfiles %}
+<div class="col-xs-6 col-md-4 sidebar" id="sidebar">
+    <aside>
+        <div class="aside-body">
+            <figure class="ads">
+                <a href="http://www.wjml.tech">
+                    <img src="{% static 'images/news/img01.jpg' %}">
+                </a>
+                <figcaption>这里留个广告位置</figcaption>
+            </figure>
+        </div>
+    </aside>
+    {% include 'users/UserInfo.html' %}
+    <div class="aside-body">
+        {% if TagRecommendList is not None %}
+            <h1 class="title-col">推荐内容
+                <div class="carousel-nav" id="hot-news-nav">
+                    <div class="prev">
+                        <i class="ion-ios-arrow-left"></i>
+                    </div>
+                    <div class="next">
+                        <i class="ion-ios-arrow-right"></i>
+                    </div>
+                </div>
+            </h1>
+            <div class="body-col vertical-slider" data-max="4" data-nav="#hot-news-nav"
+                 data-item="article">
+                {% for data in TagRecommendList %}
+                    <article class="article-mini">
+                        <div class="inner">
+                            <figure>
+                                <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                    <figure>
+                                        {% if data.cover_url %}
+                                            <img src="{{ data.cover_url }}" alt="pic"
+                                                 style="height: 100%">
+                                        {% else %}
+                                            <img src="{{ data.cover_jpg }}" alt="pic"
+                                                 style="height: 100%">
+                                        {% endif %}
+                                    </figure>
+                                </a>
+                            </figure>
+                            <div class="padding">
+                                <h1>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        {{ data.title }}</a></h1>
+                                <div class="detail">
+                                    <div class="category"><a href="#">{{ data.ai_type }}</a></div>
+                                    <div class="time">{{ data.created_date| slice:"10"}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <!-- 阅读排名、转发排名、收藏排名-->
+    <aside>
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li class="active">
+                <a href="#recomended" aria-controls="recomended" role="tab" data-toggle="tab">
+                    <i class="icon ion-ios-book-outline">
+                        阅读排名
+                    </i>
+                </a>
+            </li>
+            <li>
+                <a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">
+                    <i class="icon ion-android-share-alt">
+                        转发排名
+                    </i>
+                </a>
+            </li>
+            <li>
+                <a href="#fav" aria-controls="comments" role="tab" data-toggle="tab">
+                    <i class="icon ion-android-favorite-outline">
+                        收藏排名
+                    </i>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <!-- 阅读排名列表部分-->
+            <div class="tab-pane active" id="recomended">
+                {% for data in ArticleInfoHomeListUrlList %}
+                    {% if data.position_id == "3" and data.module_top == "1" %}
+                        <article class="article-fw">
+                            <div class="inner">
+                                <figure>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        <figure>
+                                            {% if data.cover_url %}
+                                                <img src="{{ data.cover_url }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% else %}
+                                                <img src="{{ data.cover_jpg }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </figure>
+                                <div class="details">
+                                    <div class="detail">
+                                        <div class="category">
+                                            {{ data.category }}
+                                        </div>
+                                        <div class="time">
+                                            {{ data.created_date | slice:"10" }}
+                                        </div>
+                                    </div>
+                                    <h1>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            {{ data.title }}
+                                        </a>
+                                    </h1>
+                                    <p>{{ data.summary | slice:"50"}}</p>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+                <div class="line"></div>
+                {% for data in ArticleInfoHomeListUrlList %}
+                    {% if data.position_id == "3" and data.module_top != "1" %}
+                        <article class="article-mini">
+                            <div class="inner">
+                                <figure>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        <figure>
+                                            {% if data.cover_url %}
+                                                <img src="{{ data.cover_url }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% else %}
+                                                <img src="{{ data.cover_jpg }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </figure>
+                                <div class="padding">
+                                    <h1>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            {{ data.title }}
+                                        </a>
+                                    </h1>
+                                    <div class="detail">
+                                        <div class="category">
+                                            {{ data.category }}
+                                        </div>
+                                        <div class="time">
+                                            {{ data.created_date | slice:"10" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!-- 转发排名列表部分-->
+            <div class="tab-pane comments" id="comments">
+                {% for data in ArticleInfoHomeListUrlList %}
+                    {% if data.position_id == "4" and data.module_top == "1" %}
+                        <article class="article-fw">
+                            <div class="inner">
+                                <figure>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        <figure>
+                                            {% if data.cover_url %}
+                                                <img src="{{ data.cover_url }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% else %}
+                                                <img src="{{ data.cover_jpg }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </figure>
+                                <div class="details">
+                                    <div class="detail">
+                                        <div class="category">
+                                            {{ data.category }}
+                                        </div>
+                                        <div class="time">
+                                            {{ data.created_date | slice:"10" }}
+                                        </div>
+                                    </div>
+                                    <h1>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            {{ data.title }}
+                                        </a>
+                                    </h1>
+                                    <p>{{ data.summary | slice:"50"}}</p>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+                <div class="line"></div>
+                {% for data in ArticleInfoHomeListUrlList %}
+                    {% if data.position_id == "4" and data.module_top != "1" %}
+                        <article class="article-mini">
+                            <div class="inner">
+                                <figure>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        <figure>
+                                            {% if data.cover_url %}
+                                                <img src="{{ data.cover_url }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% else %}
+                                                <img src="{{ data.cover_jpg }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </figure>
+                                <div class="padding">
+                                    <h1>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            {{ data.title }}
+                                        </a>
+                                    </h1>
+                                    <div class="detail">
+                                        <div class="category">
+                                            {{ data.category }}
+                                        </div>
+                                        <div class="time">
+                                            {{ data.created_date | slice:"10" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!-- 收藏排名列表部分-->
+            <div class="tab-pane comments" id="fav">
+                {% for data in ArticleInfoHomeListUrlList %}
+                    {% if data.position_id == "5" and data.module_top == "1" %}
+                        <article class="article-fw">
+                            <div class="inner">
+                                <figure>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        <figure>
+                                            {% if data.cover_url %}
+                                                <img src="{{ data.cover_url }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% else %}
+                                                <img src="{{ data.cover_jpg }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </figure>
+                                <div class="details">
+                                    <div class="detail">
+                                        <div class="category">
+                                            {{ data.category }}
+                                        </div>
+                                        <div class="time">
+                                            {{ data.created_date | slice:"10" }}
+                                        </div>
+                                    </div>
+                                    <h1>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            {{ data.title }}
+                                        </a>
+                                    </h1>
+                                    <p>{{ data.summary | slice:"50"}}</p>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+                <div class="line"></div>
+                {% for data in ArticleInfoHomeListUrlList %}
+                    {% if data.position_id == "5" and data.module_top != "1" %}
+                        <article class="article-mini">
+                            <div class="inner">
+                                <figure>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        <figure>
+                                            {% if data.cover_url %}
+                                                <img src="{{ data.cover_url }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% else %}
+                                                <img src="{{ data.cover_jpg }}" alt="pic"
+                                                     style="height: 100%">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </figure>
+                                <div class="padding">
+                                    <h1>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            {{ data.title }}
+                                        </a>
+                                    </h1>
+                                    <div class="detail">
+                                        <div class="category">
+                                            {{ data.category }}
+                                        </div>
+                                        <div class="time">
+                                            {{ data.created_date | slice:"10" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </aside>
+</div>

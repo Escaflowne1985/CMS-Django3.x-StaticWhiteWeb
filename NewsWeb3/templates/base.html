@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Magz is a HTML5 & CSS3 magazine template is based on Bootstrap 3.">
+    <title>Mr.数据杨CMS内容管理平台</title>
+    {% load static %}
+    {#    ico#}
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'scripts/bootstrap/bootstrap.min.css' %}">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="{% static 'scripts/ionicons/css/ionicons.min.css' %}">
+    <!-- Toast -->
+    <link rel="stylesheet" href="{% static 'scripts/toast/jquery.toast.min.css' %}">
+    <!-- OwlCarousel -->
+    <link rel="stylesheet" href="{% static 'scripts/owlcarousel/dist/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'scripts/owlcarousel/dist/assets/owl.theme.default.min.css' %}">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="{% static 'scripts/magnific-popup/dist/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'scripts/sweetalert/dist/sweetalert.css' %}">
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skins/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}">
+
+</head>
+
+<body class="skin-orange">
+<header class="primary">
+    <!--  第一部分-->
+    <div class="firstbar">
+        <div class="container">
+            <div class="row">
+                <!-- 左上角logo-->
+                <div class="col-md-3 col-sm-12">
+                    <div class="brand">
+                        <a href="{% url 'HomePage' %}">
+                            <img src="{% static 'images/logo.png' %}" alt="Logo">
+                        </a>
+                    </div>
+                </div>
+                <!-- 搜索栏-->
+                <div class="col-md-6 col-sm-12" id="search_header">
+                    <form class="search" autocomplete="off" name="search" action="/GetArticleSearchInfoPost" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" name="search_data" id="search_data" class="form-control"
+                                       placeholder="搜索其他关键字或使用过滤器以获得更准确的结果">
+                                <div class="input-group-btn">
+                                    <select class="form-control" name="search_type" style="width:80px;">
+                                        <option value="word_search" id="word_search">关键词</option>
+                                        {#                                        <option value="tag_search" id="tag_search">搜标签</option>#}
+                                        <!--                                        <option value="other" id="other">其他</option>-->
+                                    </select>
+                                    <button class="btn btn-primary"><i class="ion-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="help-block">
+                            <div>常用搜索关键词:</div>
+                            <ul>
+                                <li><a>中医</a></li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+                <!-- 用户注册、登陆-->
+                <div class="col-md-3 col-sm-12 text-right">
+                    <ul class="nav-icons">
+                        {% if UserInfo %}
+                            <li>
+                                <a href="#"><i class="ion-person"></i>
+                                    <div>{{ UserInfo.nick_name }}</div>
+                            </li>
+                            <li>
+                                <a href="{% url 'UserLogout' %}"><i class="ion-person"></i>
+                                    <div>登出</div>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="#"><i class="ion-person"></i>
+                                    <div>游客状态</div>
+                            </li>
+                            <li>
+                                <a href="{% url 'UserRegister' %}"><i class="ion-person-add"></i>
+                                    <div>注册</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'UserLogin' %}"><i class="ion-person"></i>
+                                    <div>登陆</div>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 第二部分-->
+    <nav class="menu">
+        <div class="container">
+            <div class="mobile-toggle">
+                <a href="#" data-toggle="menu" data-target="#menu-list"><i class="ion-navicon-round"></i></a>
+            </div>
+            <div class="mobile-toggle">
+                <a href="#" data-toggle="sidebar" data-target="#sidebar"><i class="ion-ios-arrow-left"></i></a>
+            </div>
+            <div id="menu-list">
+                <ul class="nav-list">
+                    <li><a href="{% url 'HomePage' %}">网站首页</a></li>
+                    <!-- 章的全部类别-->
+                    {% for Category in ArticleCategoryList %}
+                        <li class="dropdown magz-dropdown magz-dropdown-megamenu">
+                            <a href="">{{ Category.name }}<i class="ion-ios-arrow-right"></i></a>
+                            <div class="dropdown-menu megamenu">
+                                <div class="megamenu-inner">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <ul class="vertical-menu">
+                                                {% for Item in ArticleItemUrlList %}
+                                                    {% if Category.name == Item.category_name %}
+                                                        <li>
+                                                            <a href="{% url 'Article:GetArticleItemInfo' Category.name Item.name 1 %}">
+                                                                {{ Item.name }}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!--中间插入部分-->
+{% block home_data %}
+    {#    <script type="text/javascript">#}
+    {#        var url_link ={% url "Article:UserSubscription" %}  {#订阅邮件方法#}
+    {#    </script>#}
+{% endblock %}
+{% block user_data %}
+    {#    <script type="text/javascript">#}
+    {#        var url_link ={% url "Article:UserSubscription" %} {#订阅邮件方法#}
+    {#        var addfav_link ={% url "AddFav" %} {#收藏的方法#}
+    {#        var article_slug ={{ ArticleInfo.article_slug }}#}
+    {#    </script>#}
+{% endblock %}
+
+<!--  第三部分-->
+<section class="best-of-the-week">
+    <!-- 滚动推荐 部分-->
+    <div class="container">
+        <h1>
+            <div class="text">滚动推荐</div>
+            <div class="carousel-nav" id="best-of-the-week-nav">
+                <div class="prev">
+                    <i class="ion-ios-arrow-left"></i>
+                </div>
+                <div class="next">
+                    <i class="ion-ios-arrow-right"></i>
+                </div>
+            </div>
+        </h1>
+        <div class="owl-carousel owl-theme carousel-1">
+            {% for data in ArticleInfoHomeListUrlList %}
+                {% if data.position_id == "6" %}
+                    <article class="article">
+                        <div class="inner">
+                            <figure>
+                                <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                    {% if data.cover_jpg|length >  data.cover_jpg|length %}
+                                        <figure>
+                                            <img src="{{ data.cover_jpg }}" alt="pic" style="height: 100%">
+                                        </figure>
+                                    {% else %}
+                                        <figure>
+                                            <img src="{{ data.cover_jpg }}" alt="pic" style="height: 100%">
+                                        </figure>
+                                    {% endif %}
+                                </a>
+                            </figure>
+                            <div class="padding">
+                                <div class="detail">
+                                    <div class="time">{{ data.created_date| slice:"10"}}</div>
+                                    <div class="category"><a href="#">{{ data.category }}</a></div>
+                                </div>
+                                <h2>
+                                    <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                        {{ data.title }}
+                                    </a>
+                                </h2>
+
+                                <p>{{ data.summary | slice:"50"}}</p>
+
+                            </div>
+                        </div>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!--  第四部分-->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="block">
+                    <h1 class="block-title">网站介绍</h1>
+                    <div class="block-body">
+                        <figure class="foot-logo">
+                            <img src="{% static 'images/logo-light.png' %}" class="img-responsive" alt="Logo">
+                        </figure>
+                        <p class="brand-description">
+                            数据系统前后端分离项目，通过Scrapy进行文章的抓取，使用NPL处理技术对文章进行初级编辑，由于都是自动化完成业务，没有编辑，有些内容排版可能不是很美观。
+                            <br><br>
+                            使用较为流行的Item推荐算法进行文章推荐。
+                            <br><br>
+                            文章内容均来自互联网，如有侵权请联系我会马上删除。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="block">
+                    <h1 class="block-title">流行标签
+                        <div class="right"><a href="">快速了解 <i class="ion-ios-arrow-thin-right"></i></a></div>
+                    </h1>
+                    {#                    <div class="block-body">#}
+                    {#                        <ul class="tags">#}
+                    {#                            {% for tag in ArticleTagUrlList %}#}
+                    {#                                <li>#}
+                    {#                                    <a href="{{ tag.tag_name }}">#}
+                    {#                                        {{ tag.tag_name }}#}
+                    {#                                    </a>#}
+                    {#                                </li>#}
+                    {#                            {% endfor %}#}
+                    {#                        </ul>#}
+                    {#                    </div>#}
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="block">
+                    <h1 class="block-title">技术介绍</h1>
+                    <div class="block-body">
+                        <p class="brand-description">
+                            Django的Web框架
+                            <br><br>
+                            Scrapy的数据采集框架
+                            <br><br>
+                            Gerapy分布式抓取框架
+                            <br><br>
+                            百度AI的NLP接口
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 col-sm-6">
+                <div class="block">
+                    <h1 class="block-title">关于我</h1>
+                    <div class="block-body">
+                    </div>
+                </div>
+                <div class="line"></div>
+                <a href="http://www.wjml.tech" class="btn btn-magz white">关于作者
+                    <i class="ion-ios-arrow-thin-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="copyright">
+                备案号：津ICP:18009366 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 备案时间：2018-12-03
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- JS-->
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/jquery.migrate.js' %}"></script>
+<script src="{% static 'scripts/bootstrap/bootstrap.min.js' %}"></script>
+<script>var $target_end = $(".best-of-the-week");</script>
+<script src="{% static 'scripts/jquery-number/jquery.number.min.js' %}"></script>
+<script src="{% static 'scripts/owlcarousel/dist/owl.carousel.min.js' %}"></script>
+<script src="{% static 'scripts/magnific-popup/dist/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'scripts/easescroll/jquery.easeScroll.js' %}"></script>
+<script src="{% static 'scripts/sweetalert/dist/sweetalert.min.js' %}"></script>
+<script src="{% static 'scripts/toast/jquery.toast.min.js' %}"></script>
+<script src="{% static 'js/demo.js' %}"></script>
+<script src="{% static 'js/e-magz.js' %}"></script>
+<script src="{% static 'js/user_authorization.js' %}"></script>
+<script src="{% static 'js/search.js' %}"></script>
+</body>
+</html>

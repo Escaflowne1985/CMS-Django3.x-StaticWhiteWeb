@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block home_data %}
+    <section class="not-found">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="code">
+                        <h3>用户未登录</h3>
+                    </div>
+                    <h3>登陆后可以使用更多便捷的后台功能</h3>
+                    <p class="lead">未注册用户请先注册，谢谢！</p>
+                    <div class="search-form">
+                        <div class="link">
+                            <a href="{% url 'HomePage' %}">返回首页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

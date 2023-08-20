@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block home_data %}
+<section class="not-found" id="search_content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="code">
+                    <h1>搜索内容不能为空</h1>
+                </div>
+                <h1>输入关键词以及选择对应数据的类别</h1>
+                <p class="lead">希望对你有帮助！</p>
+                <div class="search-form">
+                    <form class="search" autocomplete="off"  name="search" action="/GetArticleSearchInfoPost" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" name="search_data" id="search_data" class="form-control" placeholder="搜索其他关键字或使用过滤器以获得更准确的结果">
+                                <div class="input-group-btn">
+                                    <select class="form-control" name="search_type" style="width:80px;">
+                                         <option value="word_search" id="word_search">关键词</option>
+{#                                         <option value="tag_search" id="tag_search">搜标签</option>#}
+<!--                                        <option value="other" id="other">其他</option>-->
+                                    </select>
+                                    <button class="btn btn-primary"><i class="ion-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="link">
+                        <a href="{% url 'HomePage' %}">返回首页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

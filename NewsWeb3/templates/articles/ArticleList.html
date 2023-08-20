@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block home_data %}
+    <section class="category">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 text-left">
+{#                    {% if search_data and search_type %}#}
+{#                        <div class="row">#}
+{#                            <div class="col-md-12">#}
+{#                                <ol class="breadcrumb">#}
+{#                                    <li><a href="{% url 'HomePage' %}">主页</a></li>#}
+{#                                    <li class="active">内容搜索</li>#}
+{#                                </ol>#}
+{#                                <h4 class="page-title">#}
+{#                                    搜索内容：{{ search_data }}#}
+{#                                </h4>#}
+{#                                <p class="page-subtitle">展示最近的数据内容<i></i></p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% else %}#}
+{#                        <div class="row">#}
+{#                            <div class="col-md-12">#}
+{#                                <ol class="breadcrumb">#}
+{#                                    <li><a href="{% url 'HomePage' %}">主页</a></li>#}
+{#                                    <li class="active">{{ category_name }}</li>#}
+{#                                </ol>#}
+{#                                <h4 class="page-title">#}
+{#                                    当前栏目：{{ item_name }}#}
+{#                                </h4>#}
+{#                                <p class="page-subtitle">选择推荐的标签进行内容快速检索<i></i></p>#}
+{#                            </div>#}
+{#                            <ul class="tags">#}
+{#                                {% for Tag in TagList %}#}
+{#                                    <a class="btn btn-primary more"#}
+{#                                       href="{% url 'GetArticleSearchInfo' %}?search_type=tag_search&search_data={{ Tag.tag_name }}">#}
+{#                                        <div>{{ Tag.tag_name }}</div>#}
+{#                                        <div><i class="ion-ios-arrow-thin-right"></i></div>#}
+{#                                    </a>#}
+{#                                {% endfor %}#}
+{#                            </ul>#}
+{#                            <a class="btn btn-info btn-lg btn-rounded" id="refresh-btn"#}
+{#                               href="javascript:location.reload();">#}
+{#                                <div>换一批<i class="ion-ios-arrow-thin-right"></i></div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                    <div class="line"></div>#}
+                    <div class="row">
+                        {% for data in ArticleList.results %}
+                            <article class="col-md-12 article-list" id="_data">
+                                <div class="inner">
+                                    <figure>
+                                        <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                            <figure>
+                                                {% if data.cover_url %}
+                                                    <img src="{{ data.cover_url }}" alt="pic"
+                                                         style="height: 100%">
+                                                {% else %}
+                                                    <img src="{{ data.cover_jpg }}" alt="pic"
+                                                         style="height: 100%">
+                                                {% endif %}
+                                            </figure>
+                                        </a>
+                                    </figure>
+                                    <div class="details">
+                                        <div class="detail">
+                                            <div class="category">
+                                                <a>
+                                                    {{ data.item }}
+                                                </a>
+                                            </div>
+                                            <div class="time">
+                                                {{ data.created_date| slice:"10" }}
+                                            </div>
+                                        </div>
+                                        <h1>
+                                            <a href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                                {{ data.title }}
+                                            </a>
+                                        </h1>
+                                        <p>{{ data.summary | slice:"50"}}</p>
+                                        <footer>
+                                            <a class="btn btn-primary more"
+                                               href="{% url 'Article:GetArticleDetail' data.info_slug %}">
+                                                <div>详情</div>
+                                                <div><i class="ion-ios-arrow-thin-right"></i></div>
+                                            </a>
+                                        </footer>
+                                        <div>浏览量：{{ data.read_num }} 次</div>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                        {% include 'articles/page_num.html' %}
+                    </div>
+                </div>
+                {% include 'articles/use_right.html' %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

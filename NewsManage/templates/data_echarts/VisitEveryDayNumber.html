@@ -1,0 +1,220 @@
+{# 继承xadmin的侧边栏和导航栏 #}
+{% extends 'xadmin/base_site.html' %}
+ 
+#去掉标签栏
+{% block content-nav %}
+{% endblock %}
+ 
+{% block content %}
+
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+
+    <div id="374bb79673dc4d4e8a75fbc6517520c0" class="chart-container" style="width:900px; height:500px;"></div>
+    <script>
+		var date = {{ visit_count }};
+		var visit_count = {{ visit_count }};
+        var chart_374bb79673dc4d4e8a75fbc6517520c0 = echarts.init(
+            document.getElementById('374bb79673dc4d4e8a75fbc6517520c0'), 'white', {renderer: 'canvas'});
+        var option_374bb79673dc4d4e8a75fbc6517520c0 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597"
+    ],
+
+    "series": [
+        {
+            "type": "line",
+            "name": "\u5355\u65e5IP\u603b\u6570",
+            "connectNulls": false,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": true,
+            "step": false,
+            "data": [
+                [
+                    "\u5468\u4e00",
+                    67
+                ],
+                [
+                    "\u5468\u4e8c",
+                    68
+                ],
+                [
+                    "\u5468\u4e09",
+                    86
+                ],
+                [
+                    "\u5468\u56db",
+                    60
+                ],
+                [
+                    "\u5468\u4e94",
+                    148
+                ],
+                [
+                    "\u5468\u516d",
+                    136
+                ],
+                [
+                    "\u5468\u65e5",
+                    90
+                ]
+            ],
+            "hoverAnimation": true,
+            "label": {
+                "show": false,
+                "position": "top",
+                "margin": 8
+            },
+            "lineStyle": {
+                "show": true,
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0.5
+            },
+            "zlevel": 0,
+            "z": 0,
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u5355\u65e5IP\u603b\u6570"
+            ],
+            "selected": {
+                "\u5355\u65e5IP\u603b\u6570": true
+            },
+            "show": true,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "axisTick": {
+                "show": true,
+                "alignWithLabel": true,
+                "inside": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "boundaryGap": false,
+            "minInterval": 0,
+            "splitLine": {
+                "show": false,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "data": [
+                "\u5468\u4e00",
+                "\u5468\u4e8c",
+                "\u5468\u4e09",
+                "\u5468\u56db",
+                "\u5468\u4e94",
+                "\u5468\u516d",
+                "\u5468\u65e5"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": false,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            }
+        }
+    ],
+    "title": [
+        {
+            "text": "网站日访问统计数据",
+            "padding": 5,
+            "itemGap": 10
+        }
+    ]
+};
+        chart_374bb79673dc4d4e8a75fbc6517520c0.setOption(option_374bb79673dc4d4e8a75fbc6517520c0);
+    </script>
+
+{% endblock content %}

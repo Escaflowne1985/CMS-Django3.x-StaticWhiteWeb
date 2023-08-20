@@ -1,0 +1,57 @@
+{% load staticfiles %}
+{% if UserInfo %}
+    <aside>
+        <div class="aside-body">
+            <div class="featured-author">
+                <div class="featured-author-inner">
+                    <div class="featured-author-cover"
+                         style="background-image: url('http://www.51pptmoban.com/d/file/2020/12/03/442a5c0dfb800a6c2bcd3b3fbe99a3c7.png');">
+                        <div class="badges">
+                            <div class="badge-item"><i class="ion-star"></i>用户信息</div>
+                        </div>
+                        <div class="featured-author-center">
+                            <figure class="featured-author-picture">
+                                <img src="http://images.ofweek.com/Upload/News/2017-12/28/chaishanshan/1514459311075017415.jpg"
+                                     alt="Sample Article">
+                            </figure>
+                            <div class="featured-author-info">
+                                <h2 class="name">{{ UserInfo.nick_name }}</h2>
+                                <div class="desc">您是网站的第 {{ UserInfo.id }} 位用户</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="featured-author-body">
+                        <div class="featured-author-count">
+                            <div class="item">
+                                <a href="#">
+                                    <div class="name">可用积分</div>
+                                    <div class="value">{{ UserInfo.integral }}</div>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <div class="name">用户性别</div>
+                                    <div class="value">{{ UserInfo.gender }}</div>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="{% url 'AdminUserCenter' %}">
+                                    <div class="icon">
+                                        <div>赞助积分</div>
+                                        <i class="ion-chevron-right"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="padding" style=" text-align:center;">
+                            为您提供强大的会员后台功能
+                        </div>
+                        <div class="featured-author-footer">
+                            <a href="{% url 'AdminUserCenter' %}">前往我的后台</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+{% endif %}

@@ -1,0 +1,71 @@
+<div class="col-md-12 text-center">
+    <ul class="pagination">
+        {% if search_data %}
+            {# 上一页按钮开始 #}
+            {% if previous_pag_num %}   {# 如果当前页有上一页 #}
+                <li class="previous">
+                    <a href="{% url 'Article:GetArticleItemInfo' category item previous_pag_num %}">
+                        <i class="ion-ios-arrow-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {# 上一页按钮结束 #}
+            {# 页码开始 #}
+            {% for num in pageRange %}
+                {% if num == page %}
+                    <li class="item active">
+                        <a href="{% url 'Article:GetArticleItemInfo' category item num %}">{{ num }}</a>
+                    </li>
+                {% else %}
+                    <li class="item">
+                        <a href="{% url 'Article:GetArticleItemInfo' category item num %}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {# 页码结束 #}
+            {# 下一页按钮开始 #}
+            {% if next_page_num %}
+                <li class="next">
+                    <a href="{% url 'Article:GetArticleItemInfo' category item num %}{{ page |add:1 }}">
+                        <i class="ion-ios-arrow-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {# 下一页按钮结束 #}
+        {% else %}
+            {# 上一页按钮开始 #}
+            {% if previous_pag_num %}   {# 如果当前页有上一页 #}
+                <li class="previous">
+                    <a href="{% url 'Article:GetArticleItemInfo' category item previous_pag_num %}{{ page |add:-1 }}">
+                        <i class="ion-ios-arrow-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {# 上一页按钮结束 #}
+            {# 页码开始 #}
+            {% for num in pageRange %}
+                {% if num == currentPage %}
+                    <li class="item active">
+                        <a href="{% url 'Article:GetArticleItemInfo' category item num %}">{{ num }}</a>
+                    </li>
+                {% else %}
+                    <li class="item">
+                        <a href="{% url 'Article:GetArticleItemInfo' category item num %}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {# 页码结束 #}
+            {# 下一页按钮开始 #}
+            {% if next_page_num %}
+                <li class="next">
+                    <a href="{% url 'Article:GetArticleItemInfo' category item next_page_num %}">
+                        <i class="ion-ios-arrow-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {# 下一页按钮结束 #}
+        {% endif %}
+    </ul>
+    <div class="pagination-help-text">每页最多展示 10 个结果
+    </div>
+</div>
